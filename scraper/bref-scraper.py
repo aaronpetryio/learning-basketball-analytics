@@ -6,7 +6,9 @@
 #Import requests, csv, and BeautifulSoup
 import requests
 import csv
+import os
 from bs4 import BeautifulSoup
+from pathlib import Path
 
 #Create list of the year to pull from 
 years = ['2022']
@@ -27,7 +29,7 @@ adv_stats_headers = adv_stats_table.find('thead')
 headers = adv_stats_headers.find_all('th')
 headers = [ele.text.strip() for ele in headers]
 
-#Append the headers to the beginning of the nba_adV_stats list
+#Append the headers to the beginning of the nba_adv_stats list
 nba_adv_stats.append([ele for ele in headers])
 
 #Find the advanced stats body 
@@ -45,7 +47,8 @@ for row in adv_stats_rows:
     nba_adv_stats.append([ele for ele in data_columns])
 
 #Create a dynamic CSV file name based on the year scraped
-csv_file = "nba_adv_stats_" + years[0] + ".csv"
+csv_path = os.path.join(os.getcwd(), "data/")
+csv_file = csv_path + "nba_adv_stats_" + years[0] + ".csv"
 
 #Write the nba_adv_stats list to a CSV
 with open(csv_file, "w", encoding="utf-8", newline='') as csvfile:
