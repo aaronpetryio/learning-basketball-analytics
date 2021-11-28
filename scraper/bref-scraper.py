@@ -3,12 +3,11 @@
 @author: aaronpetry.io
 """
 
-#Import requests, csv, and BeautifulSoup
+#Import requests, csv, os, and BeautifulSoup
 import requests
 import csv
 import os
 from bs4 import BeautifulSoup
-from pathlib import Path
 
 #Create list of the year to pull from 
 years = ['2022']
@@ -17,9 +16,9 @@ years = ['2022']
 nba_adv_stats = []
 
 #Create the header row with labels from the table 
-url = "https://www.basketball-reference.com/leagues/NBA_" + years[0] + ".html#misc::none"
+url = "https://www.basketball-reference.com/leagues/NBA_" + years[0] + ".html"
 
-#Get the URL from basketball-refernece
+#Get the webpage content from Basketball-Reference
 page = requests.get(url)
 soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -54,7 +53,7 @@ for year in years:
         #Combine columns
         combined_columns = year_column + data_columns
         
-        #Combine the columns and add them to the nba_adv_list list
+        #Combine the columns and add them to the nba_adv_stats list
         nba_adv_stats.append([ele for ele in combined_columns])
 
 #Create a dynamic CSV file name based on the year scraped
